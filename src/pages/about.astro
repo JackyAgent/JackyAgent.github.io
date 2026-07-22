@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const skills = [
+  { category: '后端', items: ['Go', 'Rust', 'TypeScript', 'PostgreSQL', 'Redis'] },
+  { category: '前端', items: ['React', 'Astro', 'Next.js', 'CSS'] },
+  { category: '工程化', items: ['Docker', 'Kubernetes', 'Terraform', 'GitHub Actions'] },
+  { category: '其他', items: ['云原生', '系统设计', '技术写作'] },
+];
+
+const links = [
+  { label: 'GitHub', href: 'https://github.com/yourusername', handle: '@yourusername' },
+  { label: '邮箱', href: 'mailto:you@example.com', handle: 'you@example.com' },
+  { label: '知乎', href: 'https://www.zhihu.com/', handle: '@yourusername' },
+];
+---
+
+<BaseLayout title="关于" description="关于杨佳琦">
+  <article class="about">
+    <h1>关于我</h1>
+
+    <section class="bio">
+      <p>
+        你好，我是杨佳琦，一名专注后端与平台工程的工程师，习惯用可维护的代码解决真实问题。
+        日常主要使用 Go 与 TypeScript 构建后端服务与前端应用，
+        业余时间喜欢把复杂的技术主题拆开讲清楚，并写成博客。
+      </p>
+      <p>
+        这个网站既是我的在线简历，也是我的技术博客。如果你对我的文章感兴趣，
+        或者想交流技术话题，欢迎在文章下方留言，或通过以下方式联系我。
+      </p>
+    </section>
+
+    <section class="skills-section">
+      <h2>技能栈</h2>
+      <div class="skills-grid">
+        {skills.map((group) => (
+          <div class="skill-group">
+            <h3 class="skill-category">{group.category}</h3>
+            <div class="skill-tags">
+              {group.items.map((item) => (
+                <span class="skill-tag">{item}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <h2>联系方式</h2>
+      <div class="contact-list">
+        {links.map((link) => (
+          <a href={link.href} target="_blank" rel="noopener noreferrer" class="contact-item">
+            <span class="contact-label">{link.label}</span>
+            <span class="contact-handle">{link.handle}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .bio {
+    margin-bottom: 3rem;
+    line-height: 1.9;
+    color: var(--color-text);
+  }
+
+  .bio p {
+    margin-bottom: 1.2em;
+  }
+
+  .skills-section {
+    margin-bottom: 3rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    padding: 1.2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .skill-category {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.7rem;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius);
+    border: 1px solid var(--color-border);
+  }
+
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--transition), background-color var(--transition);
+  }
+
+  .contact-item:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg-secondary);
+    text-decoration: none;
+  }
+
+  .contact-label {
+    font-weight: 500;
+  }
+
+  .contact-handle {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .skills-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

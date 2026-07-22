@@ -1,0 +1,168 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Giscus from '../../components/Giscus.astro';
+
+// 生成静态路由
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await render(post);
+
+// 获取上一篇/下一篇文章
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const currentIndex = allPosts.findIndex((p) => p.id === post.id);
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="article">
+    <header class="article-header">
+      <h1 class="article-title">{post.data.title}</h1>
+      <div class="article-meta">
+        <FormattedDate date={post.data.pubDate} />
+        {post.data.updatedDate && (
+          <span class="updated">
+            （更新于 <FormattedDate date={post.data.updatedDate} />）
+          </span>
+        )}
+      </div>
+      {post.data.tags.length > 0 && (
+        <div class="article-tags">
+          {post.data.tags.map((tag) => (
+            <span class="tag">#{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <!-- 上一篇 / 下一篇导航 -->
+    <nav class="post-nav">
+      {nextPost && (
+        <a href={`/blog/${nextPost.id}/`} class="nav-item nav-prev">
+          <span class="nav-label">← 上一篇</span>
+          <span class="nav-title">{nextPost.data.title}</span>
+        </a>
+      )}
+      {prevPost && (
+        <a href={`/blog/${prevPost.id}/`} class="nav-item nav-next">
+          <span class="nav-label">下一篇 →</span>
+          <span class="nav-title">{prevPost.data.title}</span>
+        </a>
+      )}
+    </nav>
+
+    <!-- Giscus 评论 -->
+    <Giscus />
+  </article>
+</BaseLayout>
+
+<style>
+  .article-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .article-title {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .updated {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .article-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-secondary);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius);
+  }
+
+  .prose {
+    margin-bottom: 3rem;
+  }
+
+  .post-nav {
+    display: flex;
+    gap: 1rem;
+    margin: 3rem 0;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--transition), background-color var(--transition);
+  }
+
+  .nav-item:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg-secondary);
+    text-decoration: none;
+  }
+
+  .nav-next {
+    text-align: right;
+  }
+
+  .nav-label {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+  }
+
+  .nav-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    .post-nav {
+      flex-direction: column;
+    }
+    .nav-next {
+      text-align: left;
+    }
+  }
+</style>

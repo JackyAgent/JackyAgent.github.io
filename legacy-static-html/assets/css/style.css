@@ -1,0 +1,189 @@
+/* ============================================================
+   杨佳琦 · 个人网站  —  设计令牌（来自 Ardot 设计稿）
+   画布 #EFEEEA / 卡片 #FFFFFF / 文字 #000 #3A3A3A
+   发丝线 #000 1px / 零阴影 / 圆角 2px / 强调红 #C8102E
+   字体：Noto Sans SC（中文）· Inter（西文）· Roboto Mono（等宽）
+   ============================================================ */
+:root{
+  --bg:#EFEEEA;
+  --card:#FFFFFF;
+  --ink:#000000;
+  --muted:#3A3A3A;
+  --accent:#C8102E;
+  --hairline:#000000;
+  --radius:2px;
+  --pad-x:48px;
+  --maxw:1280px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Noto Sans SC","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-weight:400;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+
+/* 等宽标签 / 代码 */
+.mono{font-family:"Roboto Mono","SFMono-Regular",Menlo,Consolas,monospace;letter-spacing:.02em;}
+
+/* ===== 布局 ===== */
+.container{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding-left:var(--pad-x);
+  padding-right:var(--pad-x);
+}
+section{padding:80px var(--pad-x);}
+
+/* ===== 吸顶导航 ===== */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  background:var(--bg);
+  border-bottom:1px solid var(--hairline);
+}
+.site-header .container{
+  height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brand{font-size:18px;font-weight:600;}
+.nav{display:flex;align-items:center;gap:32px;}
+.nav a{font-size:14px;font-weight:500;color:var(--ink);transition:opacity .15s ease;}
+.nav a.active{color:var(--accent);}
+.nav a:hover{opacity:.6;}
+.nav .github{font-family:"Inter",sans-serif;font-weight:500;}
+
+/* ===== Hero 首屏 ===== */
+.hero .container{
+  display:flex;align-items:center;gap:48px;
+  padding-top:96px;padding-bottom:80px;
+}
+.hero-left{flex:1;display:flex;flex-direction:column;gap:20px;max-width:620px;}
+.status{display:flex;align-items:center;gap:8px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.status .mono{font-size:13px;color:var(--muted);}
+.hero h1{font-size:44px;font-weight:600;line-height:1.1;}
+.hero .role{font-size:18px;font-weight:500;color:var(--muted);}
+.hero .intro{font-size:16px;color:var(--muted);max-width:560px;line-height:1.625;}
+.cta-row{display:flex;gap:12px;margin-top:4px;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:12px 24px;border-radius:var(--radius);font-size:15px;font-weight:500;
+  border:1px solid var(--hairline);transition:opacity .15s ease,background .15s ease;
+}
+.btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn-primary:hover{opacity:.85;}
+.btn-secondary{background:transparent;color:var(--ink);}
+.btn-secondary:hover{background:rgba(0,0,0,.05);}
+.monogram{
+  width:220px;height:220px;flex:0 0 220px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);
+}
+.monogram span{font-size:96px;font-weight:600;}
+
+/* ===== 区块标题 ===== */
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:32px;}
+.sec-head .label{font-size:12px;color:var(--muted);letter-spacing:.08em;}
+.sec-head h2{font-size:26px;font-weight:600;}
+.sec-head.space-between{justify-content:space-between;}
+
+/* ===== 关于我 ===== */
+.about-body{display:flex;gap:48px;align-items:flex-start;}
+.about-bio{flex:1;display:flex;flex-direction:column;gap:16px;max-width:560px;}
+.about-bio p{font-size:15px;color:var(--muted);line-height:1.6;}
+.facts{
+  width:320px;flex:0 0 320px;
+  background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);
+  padding:24px;display:flex;flex-direction:column;gap:14px;
+}
+.fact{display:flex;gap:12px;align-items:center;}
+.fact .k{width:72px;flex:0 0 72px;font-size:12px;color:var(--muted);}
+.fact .v{font-size:14px;font-weight:500;}
+
+/* ===== 简历 ===== */
+.resume-body{display:flex;gap:48px;align-items:flex-start;}
+.exp-col{flex:1;display:flex;flex-direction:column;gap:16px;}
+.exp-card{background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:8px;}
+.exp-card .period{font-size:12px;color:var(--muted);}
+.exp-card .role{font-size:18px;font-weight:600;}
+.exp-card .company{font-size:14px;font-weight:500;color:var(--muted);}
+.exp-card .desc{font-size:14px;color:var(--muted);line-height:1.57;}
+.side-col{width:320px;flex:0 0 320px;display:flex;flex-direction:column;gap:24px;}
+.side-card{background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:8px;}
+.side-card .label{font-size:12px;color:var(--muted);letter-spacing:.08em;}
+.skill-row{display:flex;flex-direction:column;gap:6px;}
+.skill-row .cat{font-size:12px;}
+.skill-row .items{font-size:14px;color:var(--muted);line-height:1.43;}
+
+/* ===== 项目 ===== */
+.proj-grid{display:flex;gap:16px;}
+.proj-card{flex:1;background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:12px;}
+.proj-card .name{font-size:18px;font-weight:600;}
+.proj-card .desc{font-size:14px;color:var(--muted);line-height:1.57;flex:1;}
+.proj-card .stack{font-size:12px;color:var(--muted);}
+.proj-card .link{font-size:14px;font-weight:500;}
+.proj-card .link:hover{color:var(--accent);}
+
+/* ===== 博客列表 ===== */
+.blog-list{border-top:1px solid var(--hairline);}
+.blog-row{display:flex;align-items:center;gap:24px;padding:20px 0;border-bottom:1px solid var(--hairline);transition:opacity .15s ease;}
+.blog-row:hover{opacity:.65;}
+.blog-row .date{width:80px;flex:0 0 80px;font-size:12px;color:var(--muted);}
+.blog-row .main{flex:1;display:flex;flex-direction:column;gap:6px;}
+.blog-row .title{font-size:18px;font-weight:600;}
+.blog-row .excerpt{font-size:14px;color:var(--muted);line-height:1.57;}
+.blog-row .tag{width:64px;flex:0 0 64px;text-align:right;font-size:12px;}
+.view-all{font-size:14px;font-weight:500;}
+.view-all:hover{color:var(--accent);}
+
+/* ===== 页脚 ===== */
+.site-footer{border-top:1px solid var(--hairline);padding:64px var(--pad-x) 40px;}
+.site-footer .container{display:flex;flex-direction:column;gap:24px;}
+.footer-top{display:flex;justify-content:space-between;gap:48px;}
+.footer-brand-col{display:flex;flex-direction:column;gap:8px;}
+.footer-brand{font-size:18px;font-weight:600;}
+.footer-tag{font-size:14px;color:var(--muted);}
+.footer-nav-col,.footer-social-col{display:flex;flex-direction:column;gap:10px;}
+.footer-nav-col a,.footer-social-col a{font-size:14px;font-weight:500;transition:opacity .15s ease;}
+.footer-nav-col a:hover,.footer-social-col a:hover{opacity:.6;}
+.footer-bottom .mono{font-size:13px;color:var(--muted);}
+
+/* ===== 博客文章页 ===== */
+.post .container{
+  display:flex;justify-content:center;
+  padding-top:64px;padding-bottom:80px;
+}
+.article{width:720px;max-width:100%;display:flex;flex-direction:column;gap:24px;}
+.article .label{font-size:12px;color:var(--muted);letter-spacing:.08em;}
+.article h1{font-size:32px;font-weight:600;line-height:1.31;}
+.article .meta{font-size:14px;color:var(--muted);}
+.article h2{font-size:24px;font-weight:600;margin-top:8px;}
+.article p{font-size:16px;color:var(--muted);line-height:1.625;}
+.code-block{background:#111111;border-radius:var(--radius);padding:20px;overflow-x:auto;}
+.code-block pre{font-family:"Roboto Mono",monospace;font-size:13px;line-height:1.54;color:var(--bg);}
+.quote{border-left:2px solid var(--accent);padding-left:16px;}
+.quote p{font-size:16px;font-weight:500;color:var(--ink);line-height:1.625;}
+
+/* ===== 响应式 ===== */
+@media (max-width:900px){
+  :root{--pad-x:24px;}
+  section{padding:56px var(--pad-x);}
+  .hero .container{flex-direction:column;align-items:flex-start;padding-top:64px;}
+  .monogram{width:120px;height:120px;flex-basis:120px;}
+  .monogram span{font-size:56px;}
+  .about-body,.resume-body,.proj-grid{flex-direction:column;}
+  .facts,.side-col{width:100%;flex-basis:auto;}
+  .footer-top{flex-direction:column;gap:32px;}
+}
+@media (max-width:600px){
+  :root{--pad-x:18px;}
+  .hero h1{font-size:34px;}
+  .nav{gap:18px;}
+  .article{width:100%;}
+}

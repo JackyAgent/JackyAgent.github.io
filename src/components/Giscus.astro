@@ -1,0 +1,83 @@
+---
+// Giscus 配置参数
+// ⚠️ 以下配置需要替换为你自己的值（详见 README「配置 Giscus」一节）
+interface Props {
+  class?: string;
+}
+
+const giscusConfig = {
+  repo: 'yourusername/my-website',         // 你的仓库，格式: owner/repo
+  repoId: 'R_kgDOXXXXXXXX',                // 仓库 ID（从 giscus.app 获取）
+  category: 'Announcements',                // Discussions 分类名
+  categoryId: 'DIC_kwDOXXXXXXXX',          // 分类 ID（从 giscus.app 获取）
+  mapping: 'pathname',                      // 评论与文章的映射方式
+  reactionsEnabled: '1',                    // 表情反应
+  emitMetadata: '0',
+  inputPosition: 'top',                     // 评论框位置: top/bottom
+  theme: 'prefers_color_scheme',           // 跟随系统主题
+  lang: 'zh-CN',
+};
+---
+
+<section class="giscus-wrapper" {...Astro.props}>
+  <h2 class="comments-heading">评论</h2>
+  <div class="giscus"></div>
+</section>
+
+<script>
+  const config = {
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'yourusername/my-website',
+    'data-repo-id': 'R_kgDOXXXXXXXX',
+    'data-category': 'Announcements',
+    'data-category-id': 'DIC_kwDOXXXXXXXX',
+    'data-mapping': 'pathname',
+    'data-strict': '1',
+    'data-reactions-enabled': '1',
+    'data-emit-metadata': '0',
+    'data-input-position': 'top',
+    'data-theme': 'prefers_color_scheme',
+    'data-lang': 'zh-CN',
+    crossorigin: 'anonymous',
+    async: '',
+  };
+
+  // 懒加载：当评论区进入视口时才加载脚本
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const script = document.createElement('script');
+          Object.entries(config).forEach(([key, value]) => {
+            script.setAttribute(key, value as string);
+          });
+          entry.target.querySelector('.giscus')?.appendChild(script);
+          observer.disconnect();
+        }
+      });
+    },
+    { rootMargin: '200px' }
+  );
+
+  const wrapper = document.querySelector('.giscus-wrapper');
+  if (wrapper) {
+    observer.observe(wrapper);
+  }
+</script>
+
+<style>
+  .giscus-wrapper {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .comments-heading {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .giscus {
+    min-height: 100px;
+  }
+</style>

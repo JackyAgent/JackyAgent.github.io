@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用 Go 构建一个高并发任务调度器 · 杨佳琦</title>
+  <meta name="description" content="从需求拆解到实现细节，聊聊调度器的核心数据结构与锁竞争优化。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="brand">杨佳琦</a>
+      <nav class="nav">
+        <a href="../index.html#about">关于</a>
+        <a href="../index.html#resume">简历</a>
+        <a href="../index.html#projects">项目</a>
+        <a href="index.html" class="active">博客</a>
+        <a href="https://github.com/" class="github">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="post">
+    <div class="container">
+      <article class="article">
+        <span class="label mono">BLOG / 工程实践</span>
+        <h1>用 Go 构建一个高并发任务调度器</h1>
+        <p class="meta">2026-06-18 · 12 分钟阅读 · 杨佳琦</p>
+
+        <h2>背景</h2>
+        <p>调度器是后端系统的核心组件，负责把大量异步任务分发给有限的 worker。一个简单的实现很容易在千级 QPS 下崩溃——热点往往出在全局锁与任务队列的拷贝上。</p>
+
+        <div class="code-block">
+<pre>func (s *Scheduler) Schedule(job Job) error {
+    shard := uint64(job.ID) % s.shardCount
+    return s.shards[shard].Push(job)
+}</pre>
+        </div>
+
+        <h2>锁竞争优化</h2>
+        <p>我们的做法是把全局队列拆成 N 个分片队列，每个 worker 固定消费一个分片，并用无锁 ring buffer 承载入队。压力下再把分片数动态上调，热点被均匀打散。</p>
+
+        <div class="quote">
+          <p>“过早优化是万恶之源，但调度器的热点必须一开始就量化。”</p>
+        </div>
+
+        <p>下一篇会展开讲 ring buffer 的内存布局与 GC 友好写法，欢迎在博客列表里继续读。</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <span class="footer-brand">杨佳琦</span>
+          <span class="footer-tag">全栈工程师 · 技术写作者</span>
+        </div>
+        <nav class="footer-nav-col">
+          <a href="../index.html#about">关于</a>
+          <a href="../index.html#resume">简历</a>
+          <a href="../index.html#projects">项目</a>
+          <a href="index.html">博客</a>
+        </nav>
+        <nav class="footer-social-col">
+          <a href="https://github.com/">GitHub</a>
+          <a href="mailto:you@example.com">Email</a>
+          <a href="https://www.zhihu.com/">知乎</a>
+          <a href="rss.xml">RSS</a>
+        </nav>
+      </div>
+      <div class="footer-bottom"><span class="mono">© 2026 杨佳琦 · 由 GitHub Pages 构建</span></div>
+    </div>
+  </footer>
+
+</body>
+</html>

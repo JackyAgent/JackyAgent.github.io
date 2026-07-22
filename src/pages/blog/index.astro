@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="专栏" description="技术文章与思考">
+  <h1>专栏</h1>
+  <p class="page-desc">
+    共 {posts.length} 篇文章
+  </p>
+  <div class="post-list">
+    {posts.map((post) => (
+      <BlogCard post={post} />
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .page-desc {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+  }
+</style>

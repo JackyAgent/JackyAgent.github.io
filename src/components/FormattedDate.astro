@@ -1,0 +1,24 @@
+---
+interface Props {
+  date: Date;
+}
+
+const { date } = Astro.props;
+const formatted = new Intl.DateTimeFormat('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(date);
+---
+
+<time datetime={date.toISOString()} class="formatted-date">
+  {formatted}
+</time>
+
+<style>
+  .formatted-date {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+</style>

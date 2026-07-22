@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>杨佳琦 · 全栈工程师 / 技术写作者</title>
+  <meta name="description" content="杨佳琦的个人网站：在线简历与技术博客。全栈工程师，专注后端与平台工程。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- 导航 -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="brand">杨佳琦</a>
+      <nav class="nav">
+        <a href="#about">关于</a>
+        <a href="#resume">简历</a>
+        <a href="#projects">项目</a>
+        <a href="blog/">博客</a>
+        <a href="https://github.com/" class="github">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 首屏 -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-left">
+        <div class="status"><span class="dot"></span><span class="mono">可接洽新机会</span></div>
+        <h1>杨佳琦</h1>
+        <p class="role">全栈工程师 · 技术写作者</p>
+        <p class="intro">我构建 Web 与云原生应用，并把踩过的坑写成文章。这里收录我的简历与技术领域笔记，欢迎交流。</p>
+        <div class="cta-row">
+          <a href="#resume" class="btn btn-primary">查看简历</a>
+          <a href="blog/" class="btn btn-secondary">读我的博客</a>
+        </div>
+      </div>
+      <div class="monogram"><span>杨</span></div>
+    </div>
+  </section>
+
+  <!-- 关于我 -->
+  <section id="about">
+    <div class="container">
+      <div class="sec-head"><span class="label mono">ABOUT</span><h2>关于我</h2></div>
+      <div class="about-body">
+        <div class="about-bio">
+          <p>你好，我是杨佳琦。一名专注后端与平台工程的工程师，习惯用可维护的代码解决真实问题。</p>
+          <p>工作之外，我喜欢把复杂的技术主题拆开讲清楚——这也是这个站点存在的理由：既是一份在线简历，也是我的技术博客。</p>
+        </div>
+        <aside class="facts">
+          <div class="fact"><span class="k mono">现居</span><span class="v">深圳</span></div>
+          <div class="fact"><span class="k mono">当前</span><span class="v">高级工程师 @ 某科技公司</span></div>
+          <div class="fact"><span class="k mono">关注</span><span class="v">云原生 · 前端架构</span></div>
+          <div class="fact"><span class="k mono">语言</span><span class="v">Go · TypeScript · Rust</span></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 简历 -->
+  <section id="resume">
+    <div class="container">
+      <div class="sec-head"><span class="label mono">RESUME</span><h2>简历</h2></div>
+      <div class="resume-body">
+        <div class="exp-col">
+          <article class="exp-card">
+            <span class="period mono">2021 — 至今</span>
+            <h3 class="role">高级工程师</h3>
+            <p class="company">某科技公司 · 平台工程组</p>
+            <p class="desc">负责核心调度服务的架构演进，将任务吞吐提升 3 倍；主导团队从单体到微服务的迁移。</p>
+          </article>
+          <article class="exp-card">
+            <span class="period mono">2019 — 2021</span>
+            <h3 class="role">工程师</h3>
+            <p class="company">某创业公司 · 基础架构</p>
+            <p class="desc">从零搭建 CI/CD 与可观测性体系，将发布耗时从 40 分钟降到 5 分钟。</p>
+          </article>
+          <article class="exp-card">
+            <span class="period mono">2018 — 2019</span>
+            <h3 class="role">后端开发实习生</h3>
+            <p class="company">某互联网公司</p>
+            <p class="desc">参与订单服务的稳定性治理，编写自动化巡检脚本，减少线上故障 30%。</p>
+          </article>
+        </div>
+        <aside class="side-col">
+          <div class="side-card">
+            <span class="label mono">EDUCATION</span>
+            <p style="font-weight:500;">某大学 · 计算机科学 学士</p>
+            <span class="mono" style="font-size:13px;color:var(--muted);">2015 — 2019</span>
+          </div>
+          <div class="side-card">
+            <span class="label mono">SKILLS</span>
+            <div class="skill-row"><span class="cat mono">后端</span><span class="items">Go · Rust · PostgreSQL · Redis</span></div>
+            <div class="skill-row"><span class="cat mono">前端</span><span class="items">TypeScript · React · Next.js</span></div>
+            <div class="skill-row"><span class="cat mono">工具</span><span class="items">Docker · Kubernetes · Terraform · GitHub Actions</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 项目 -->
+  <section id="projects">
+    <div class="container">
+      <div class="sec-head"><span class="label mono">PROJECTS</span><h2>项目作品</h2></div>
+      <div class="proj-grid">
+        <article class="proj-card">
+          <h3 class="name">taskq</h3>
+          <p class="desc">轻量级分布式任务队列，支持优先级与重试，单机吞吐 10w+/s。</p>
+          <span class="stack mono">Go · Redis · gRPC</span>
+          <a href="https://github.com/" class="link">在 GitHub 查看 →</a>
+        </article>
+        <article class="proj-card">
+          <h3 class="name">obsidian-lite</h3>
+          <p class="desc">自托管的指标看板，秒级聚合，自带告警规则引擎。</p>
+          <span class="stack mono">TypeScript · ClickHouse</span>
+          <a href="https://github.com/" class="link">在 GitHub 查看 →</a>
+        </article>
+        <article class="proj-card">
+          <h3 class="name">mdpub</h3>
+          <p class="desc">把 Markdown 一键发布到多平台的静态站点生成器。</p>
+          <span class="stack mono">Rust · Next.js</span>
+          <a href="https://github.com/" class="link">在 GitHub 查看 →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 博客预览 -->
+  <section id="blog">
+    <div class="container">
+      <div class="sec-head space-between">
+        <div style="display:flex;align-items:baseline;gap:16px;">
+          <span class="label mono">BLOG</span><h2>技术博客</h2>
+        </div>
+        <a href="blog/" class="view-all">查看全部 →</a>
+      </div>
+      <div class="blog-list">
+        <a class="blog-row" href="blog/post-1.html">
+          <span class="date mono">2026-06</span>
+          <span class="main">
+            <span class="title">用 Go 构建一个高并发任务调度器</span>
+            <span class="excerpt">从需求拆解到实现细节，聊聊调度器的核心数据结构与锁竞争优化。</span>
+          </span>
+          <span class="tag mono">Go</span>
+        </a>
+        <a class="blog-row" href="blog/">
+          <span class="date mono">2026-04</span>
+          <span class="main">
+            <span class="title">为什么我们放弃了微服务，回到模块化单体</span>
+            <span class="excerpt">复盘一次架构回退：在复杂度与团队规模之间找平衡点。</span>
+          </span>
+          <span class="tag mono">架构</span>
+        </a>
+        <a class="blog-row" href="blog/">
+          <span class="date mono">2026-02</span>
+          <span class="main">
+            <span class="title">用 eBPF 观测生产环境的真实延迟</span>
+            <span class="excerpt">不侵入代码也能拿到火焰图：eBPF 在可观测性中的实战。</span>
+          </span>
+          <span class="tag mono">eBPF</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <span class="footer-brand">杨佳琦</span>
+          <span class="footer-tag">全栈工程师 · 技术写作者</span>
+        </div>
+        <nav class="footer-nav-col">
+          <a href="#about">关于</a>
+          <a href="#resume">简历</a>
+          <a href="#projects">项目</a>
+          <a href="blog/">博客</a>
+        </nav>
+        <nav class="footer-social-col">
+          <a href="https://github.com/">GitHub</a>
+          <a href="mailto:you@example.com">Email</a>
+          <a href="https://www.zhihu.com/">知乎</a>
+          <a href="blog/rss.xml">RSS</a>
+        </nav>
+      </div>
+      <div class="footer-bottom"><span class="mono">© 2026 杨佳琦 · 由 GitHub Pages 构建</span></div>
+    </div>
+  </footer>
+
+</body>
+</html>
