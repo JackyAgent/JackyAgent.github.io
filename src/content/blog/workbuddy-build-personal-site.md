@@ -100,6 +100,9 @@ draft: false
 它会在你说出"帮我做个个人网站 / 用 Ardot 设计主页 / 托管到 GitHub Pages / 接入 Giscus"时自动触发，
 直接给出可复制的文件模板和部署步骤，省去每次从头摸索。
 
+Skill 已打包，可直接下载导入：**<a href="/skills/personal-website-astro.zip" download>personal-website-astro.zip</a>**。
+本地路径：`~/.workbuddy/skills/personal-website-astro/`（用户级，对所有项目可用）。
+
 ## 八、用 WorkBuddy 快速搭个人网站：最简路径
 
 如果你也想来一个，对话里可以这样开口：
