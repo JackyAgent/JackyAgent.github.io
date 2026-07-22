@@ -1,33 +1,38 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { useTranslations, type Lang, defaultLang } from '../i18n/ui';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  lang?: Lang;
 }
 
-const { title, description = '杨嘉奇的个人网站：在线简历与技术博客' } = Astro.props;
-const siteName = '杨嘉奇'; // 替换为你的名字
+const { title, lang = defaultLang, description } = Astro.props;
+const t = useTranslations(lang);
+const siteName = t('site.name');
+const metaDescription = description ?? t('site.description');
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
+const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
+    <meta name="description" content={metaDescription} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
   </head>
   <body>
-    <Header />
+    <Header lang={lang} />
     <main>
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} />
   </body>
 </html>

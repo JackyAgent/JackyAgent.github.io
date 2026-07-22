@@ -1,17 +1,27 @@
 ---
+import { useTranslations, type Lang, defaultLang } from '../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
+const siteName = t('site.name');
+
 const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/JackyAgent' },
-  { label: '邮箱', href: 'mailto:yang.jiaqi.hadoop@gmail.com' },
-  { label: '知乎', href: 'https://www.zhihu.com/' },
-  { label: '微信 JackyYangPassion', href: 'javascript:void(0)' },
+  { label: t('footer.email'), href: 'mailto:yang.jiaqi.hadoop@gmail.com' },
+  { label: t('footer.zhihu'), href: 'https://www.zhihu.com/' },
+  { label: t('footer.wechat'), href: 'javascript:void(0)' },
 ];
 ---
 
 <footer class="site-footer">
   <div class="footer-inner">
     <p class="footer-text">
-      © {year} 杨嘉奇 · 由 GitHub Pages 构建
+      © {year} {siteName} · {t('footer.builtWith')}
     </p>
     <div class="footer-links">
       {socialLinks.map((link) => (

@@ -1,9 +1,16 @@
 ---
+import { useTranslations, type Lang, defaultLang } from '../i18n/ui';
+
 // Giscus 配置参数
 // ⚠️ 以下配置需要替换为你自己的值（详见 README「配置 Giscus」一节）
 interface Props {
   class?: string;
+  lang?: Lang;
 }
+
+const { lang = defaultLang, ...rest } = Astro.props;
+const t = useTranslations(lang);
+const giscusLang = lang === 'en' ? 'en' : 'zh-CN';
 
 const giscusConfig = {
   repo: 'JackyAgent/JackyAgent.github.io',  // 你的仓库，格式: owner/repo
@@ -15,7 +22,7 @@ const giscusConfig = {
   emitMetadata: '0',
   inputPosition: 'top',                     // 评论框位置: top/bottom
   theme: 'prefers_color_scheme',           // 跟随系统主题
-  lang: 'zh-CN',
+  lang: giscusLang,
 };
 
 // 未配置（仍为占位）时降级，避免 giscus 加载报错
@@ -23,19 +30,22 @@ const enabled = !giscusConfig.repoId.includes('XXXX');
 ---
 
 {enabled ? (
-  <section class="giscus-wrapper" {...Astro.props}>
-    <h2 class="comments-heading">评论</h2>
+  <section class="giscus-wrapper" data-giscus-lang={giscusLang} {...rest}>
+    <h2 class="comments-heading">{t('comments.title')}</h2>
     <div class="giscus"></div>
   </section>
 ) : (
-  <section class="giscus-wrapper" {...Astro.props}>
-    <h2 class="comments-heading">评论</h2>
-    <p class="giscus-disabled">评论功能即将开启，敬请期待。</p>
+  <section class="giscus-wrapper" {...rest}>
+    <h2 class="comments-heading">{t('comments.title')}</h2>
+    <p class="giscus-disabled">{t('comments.disabled')}</p>
   </section>
 )}
 
 {enabled && (
   <script>
+    const wrapper = document.querySelector('.giscus-wrapper');
+    const giscusLang = wrapper?.getAttribute('data-giscus-lang') || 'zh-CN';
+
     const config = {
       src: 'https://giscus.app/client.js',
       'data-repo': 'JackyAgent/JackyAgent.github.io',
@@ -48,7 +58,7 @@ const enabled = !giscusConfig.repoId.includes('XXXX');
       'data-emit-metadata': '0',
       'data-input-position': 'top',
       'data-theme': 'prefers_color_scheme',
-      'data-lang': 'zh-CN',
+      'data-lang': giscusLang,
       crossorigin: 'anonymous',
       async: '',
     };
@@ -70,13 +80,11 @@ const enabled = !giscusConfig.repoId.includes('XXXX');
       { rootMargin: '200px' }
     );
 
-    const wrapper = document.querySelector('.giscus-wrapper');
     if (wrapper) {
       observer.observe(wrapper);
     }
   </script>
 )}
-}
 
 <style>
   .giscus-wrapper {

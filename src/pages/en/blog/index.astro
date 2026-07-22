@@ -1,10 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import BlogCard from '../../components/BlogCard.astro';
-import { useTranslations } from '../../i18n/ui';
-import { getPostsByLang } from '../../i18n/blog';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { useTranslations } from '../../../i18n/ui';
+import { getPostsByLang } from '../../../i18n/blog';
 
-const lang = 'zh';
+const lang = 'en';
 const t = useTranslations(lang);
 const posts = await getPostsByLang(lang);
 ---

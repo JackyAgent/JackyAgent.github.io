@@ -2,6 +2,8 @@
 
 按《Astro + Giscus 个人网站搭建指南》搭建的静态站点：Astro 内容驱动框架 + Giscus 评论（基于 GitHub Discussions）+ GitHub Pages 免费托管。视觉采用极简黑白（暖灰底 `#EFEEEA`、白卡、黑色发丝线、强调红 `#C8102E`），支持亮/暗双主题。
 
+**中英双语**：默认中文在根路径 `/`，英文在 `/en/`，右上角可一键切换语言（会跳到当前页面的另一语言版本）。
+
 ## 目录结构
 
 ```plaintext
@@ -9,16 +11,28 @@
 ├── .github/workflows/deploy.yml   # GitHub Actions 自动部署
 ├── public/favicon.svg
 ├── src/
-│   ├── components/                # Header / Footer / BlogCard / FormattedDate / Giscus
-│   ├── content/blog/              # Markdown 文章（写博客只改这里）
+│   ├── components/                # Header / Footer / BlogCard / FormattedDate / Giscus（均支持 lang）
+│   ├── content/blog/
+│   │   ├── zh/                    # 中文 Markdown 文章
+│   │   └── en/                    # 英文 Markdown 文章（与 zh 同名一一对应）
+│   ├── i18n/
+│   │   ├── ui.ts                  # 界面文案翻译字典 + 语言辅助函数
+│   │   └── blog.ts               # 按语言筛选文章、解析 slug
 │   ├── layouts/BaseLayout.astro
-│   ├── pages/                     # index / about / blog/index / blog/[...slug]
+│   ├── pages/                     # 中文：index / about / blog/*
+│   │   └── en/                    # 英文：en/index / en/about / en/blog/*
 │   ├── styles/global.css          # 设计令牌（CSS 变量）集中在这里
 │   └── content.config.ts          # 内容集合 schema
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
 ```
+
+## 国际化（i18n）
+
+- 语言配置在 `astro.config.mjs` 的 `i18n`（默认 `zh`，`prefixDefaultLocale: false`，故中文无 `/zh` 前缀）。
+- 界面文案（导航、按钮、页脚等）集中在 `src/i18n/ui.ts`，新增文案在 `zh` 与 `en` 两个对象里同步补一条即可。
+- 文章按语言放在 `src/content/blog/zh/` 与 `src/content/blog/en/`，同名文件为对应译文；页面通过 `getPostsByLang(lang)` 只取当前语言文章。
 
 ## 本地开发
 
@@ -65,7 +79,7 @@ git push -u origin main
 
 ## 发布新文章
 
-在 `src/content/blog/` 新建 `.md`：
+在 `src/content/blog/zh/` 新建 `.md`（英文版放到 `src/content/blog/en/`，建议同名以便切换语言时一一对应）：
 
 ```markdown
 ---
@@ -86,7 +100,7 @@ draft: false   # true 则不发布
 | 内容 | 文件 |
 | --- | --- |
 | 配色 / 字体 / 圆角 | `src/styles/global.css` 顶部 CSS 变量 |
-| 站点名 / 导航 | `src/layouts/BaseLayout.astro` + `src/components/Header.astro` |
-| 首页文案 | `src/pages/index.astro` |
-| 关于页 | `src/pages/about.astro` |
+| 站点名 / 导航 / 界面文案 | `src/i18n/ui.ts`（中英各一份） |
+| 首页文案 | `src/i18n/ui.ts` 的 `home.*` |
+| 关于页文案 | `src/i18n/ui.ts` 的 `about.*` |
 | 页脚社交链接 | `src/components/Footer.astro` |

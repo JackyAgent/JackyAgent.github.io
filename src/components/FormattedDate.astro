@@ -1,10 +1,14 @@
 ---
+import type { Lang } from '../i18n/ui';
+
 interface Props {
   date: Date;
+  lang?: Lang;
 }
 
-const { date } = Astro.props;
-const formatted = new Intl.DateTimeFormat('zh-CN', {
+const { date, lang = 'zh' } = Astro.props;
+const locale = lang === 'en' ? 'en-US' : 'zh-CN';
+const formatted = new Intl.DateTimeFormat(locale, {
   year: 'numeric',
   month: 'long',
   day: 'numeric',

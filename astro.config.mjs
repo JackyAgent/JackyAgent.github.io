@@ -12,6 +12,15 @@ export default defineConfig({
 
   integrations: [react()],
 
+  // 国际化：默认中文（根路径无前缀），英文在 /en 下
+  i18n: {
+    locales: ['zh', 'en'],
+    defaultLocale: 'zh',
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+
   // GitHub Pages 需要静态输出
   output: 'static',
 

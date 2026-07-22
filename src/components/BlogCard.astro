@@ -1,19 +1,23 @@
 ---
 import FormattedDate from './FormattedDate.astro';
+import { localizePath, type Lang, defaultLang } from '../i18n/ui';
+import { getBlogSlug } from '../i18n/blog';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  lang?: Lang;
 }
 
-const { post } = Astro.props;
+const { post, lang = defaultLang } = Astro.props;
 const { title, description, pubDate, tags } = post.data;
+const href = localizePath(`/blog/${getBlogSlug(post.id)}/`, lang);
 ---
 
 <article class="blog-card">
-  <a href={`/blog/${post.id}/`} class="card-link">
+  <a href={href} class="card-link">
     <div class="card-date">
-      <FormattedDate date={pubDate} />
+      <FormattedDate date={pubDate} lang={lang} />
     </div>
     <h3 class="card-title">{title}</h3>
     <p class="card-desc">{description}</p>
