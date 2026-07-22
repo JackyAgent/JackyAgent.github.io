@@ -17,53 +17,66 @@ const giscusConfig = {
   theme: 'prefers_color_scheme',           // 跟随系统主题
   lang: 'zh-CN',
 };
+
+// 未配置（仍为占位）时降级，避免 giscus 加载报错
+const enabled = !giscusConfig.repoId.includes('XXXX');
 ---
 
-<section class="giscus-wrapper" {...Astro.props}>
-  <h2 class="comments-heading">评论</h2>
-  <div class="giscus"></div>
-</section>
+{enabled ? (
+  <section class="giscus-wrapper" {...Astro.props}>
+    <h2 class="comments-heading">评论</h2>
+    <div class="giscus"></div>
+  </section>
+) : (
+  <section class="giscus-wrapper" {...Astro.props}>
+    <h2 class="comments-heading">评论</h2>
+    <p class="giscus-disabled">评论功能即将开启，敬请期待。</p>
+  </section>
+)}
 
-<script>
-  const config = {
-    src: 'https://giscus.app/client.js',
-    'data-repo': 'JackyAgent/JackyAgent.github.io',
-    'data-repo-id': 'R_kgDOXXXXXXXX',
-    'data-category': 'Announcements',
-    'data-category-id': 'DIC_kwDOXXXXXXXX',
-    'data-mapping': 'pathname',
-    'data-strict': '1',
-    'data-reactions-enabled': '1',
-    'data-emit-metadata': '0',
-    'data-input-position': 'top',
-    'data-theme': 'prefers_color_scheme',
-    'data-lang': 'zh-CN',
-    crossorigin: 'anonymous',
-    async: '',
-  };
+{enabled && (
+  <script>
+    const config = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'JackyAgent/JackyAgent.github.io',
+      'data-repo-id': 'R_kgDOXXXXXXXX',
+      'data-category': 'Announcements',
+      'data-category-id': 'DIC_kwDOXXXXXXXX',
+      'data-mapping': 'pathname',
+      'data-strict': '1',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'top',
+      'data-theme': 'prefers_color_scheme',
+      'data-lang': 'zh-CN',
+      crossorigin: 'anonymous',
+      async: '',
+    };
 
-  // 懒加载：当评论区进入视口时才加载脚本
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const script = document.createElement('script');
-          Object.entries(config).forEach(([key, value]) => {
-            script.setAttribute(key, value as string);
-          });
-          entry.target.querySelector('.giscus')?.appendChild(script);
-          observer.disconnect();
-        }
-      });
-    },
-    { rootMargin: '200px' }
-  );
+    // 懒加载：当评论区进入视口时才加载脚本
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const script = document.createElement('script');
+            Object.entries(config).forEach(([key, value]) => {
+              script.setAttribute(key, value as string);
+            });
+            entry.target.querySelector('.giscus')?.appendChild(script);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '200px' }
+    );
 
-  const wrapper = document.querySelector('.giscus-wrapper');
-  if (wrapper) {
-    observer.observe(wrapper);
-  }
-</script>
+    const wrapper = document.querySelector('.giscus-wrapper');
+    if (wrapper) {
+      observer.observe(wrapper);
+    }
+  </script>
+)}
+}
 
 <style>
   .giscus-wrapper {
@@ -79,5 +92,10 @@ const giscusConfig = {
 
   .giscus {
     min-height: 100px;
+  }
+
+  .giscus-disabled {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
   }
 </style>
