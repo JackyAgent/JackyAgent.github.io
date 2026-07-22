@@ -38,7 +38,7 @@ jobs:
         run: npm run build
         env:
           # 项目页仓库（如 my-website）设为 /my-website；用户页仓库（username.github.io）设为 /
-          ASTRO_BASE: /my-website
+          ASTRO_BASE: /
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
