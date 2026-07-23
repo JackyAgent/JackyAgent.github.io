@@ -6,11 +6,11 @@ import Giscus from '../../../components/Giscus.astro';
 import { useTranslations, localizePath } from '../../../i18n/ui';
 import { getPostsByLang, getBlogSlug } from '../../../i18n/blog';
 
-const lang = 'en';
+const lang = 'zh';
 
-// 生成静态路由（仅英文文章）
+// 生成静态路由（仅中文文章）
 export async function getStaticPaths() {
-  const posts = await getPostsByLang('en');
+  const posts = await getPostsByLang('zh');
   return posts.map((post) => ({
     params: { slug: getBlogSlug(post.id) },
     props: post,
@@ -53,7 +53,7 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
       <Content />
     </div>
 
-    <!-- Previous / Next navigation -->
+    <!-- 上一篇 / 下一篇导航 -->
     <nav class="post-nav">
       {nextPost && (
         <a href={localizePath(`/blog/${getBlogSlug(nextPost.id)}/`, lang)} class="nav-item nav-prev">
@@ -69,7 +69,7 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
       )}
     </nav>
 
-    <!-- Giscus comments -->
+    <!-- Giscus 评论 -->
     <Giscus lang={lang} />
   </article>
 </BaseLayout>

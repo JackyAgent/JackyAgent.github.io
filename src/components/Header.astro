@@ -19,7 +19,7 @@ const navItems = [
 const base = import.meta.env.BASE_URL; // '/' 或 '/my-website/'
 const pathname = Astro.url.pathname;
 const rel = pathname.startsWith(base) ? '/' + pathname.slice(base.length) : pathname;
-const relNoLang = rel.replace(/^\/en(?=\/|$)/, '') || '/';
+const relNoLang = rel.replace(/^\/(en|zh)(?=\/|$)/, '') || '/';
 
 const isActive = (match: string) => {
   if (match === '/') return relNoLang === '/';

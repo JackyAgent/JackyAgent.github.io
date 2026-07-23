@@ -4,7 +4,7 @@ import BlogCard from '../components/BlogCard.astro';
 import { useTranslations, localizePath } from '../i18n/ui';
 import { getPostsByLang } from '../i18n/blog';
 
-const lang = 'zh';
+const lang = 'en';
 const t = useTranslations(lang);
 const posts = (await getPostsByLang(lang)).slice(0, 5);
 ---

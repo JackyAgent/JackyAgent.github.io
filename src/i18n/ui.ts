@@ -3,7 +3,7 @@ export const languages = {
   en: 'English',
 } as const;
 
-export const defaultLang = 'zh';
+export const defaultLang = 'en';
 
 export type Lang = keyof typeof languages;
 
@@ -128,7 +128,7 @@ export function useTranslations(lang: Lang) {
   };
 }
 
-/** 给定语言，返回带前缀的路径。zh 为默认语言，无前缀。 */
+/** 给定语言，返回带前缀的路径。en 为默认语言，无前缀；zh 带 /zh 前缀。 */
 export function localizePath(path: string, lang: Lang): string {
   const clean = path.startsWith('/') ? path : `/${path}`;
   return lang === defaultLang ? clean : `/${lang}${clean === '/' ? '' : clean}`;

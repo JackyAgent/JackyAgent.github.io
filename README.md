@@ -2,7 +2,7 @@
 
 按《Astro + Giscus 个人网站搭建指南》搭建的静态站点：Astro 内容驱动框架 + Giscus 评论（基于 GitHub Discussions）+ GitHub Pages 免费托管。视觉采用极简黑白（暖灰底 `#EFEEEA`、白卡、黑色发丝线、强调红 `#C8102E`），支持亮/暗双主题。
 
-**中英双语**：默认中文在根路径 `/`，英文在 `/en/`，右上角可一键切换语言（会跳到当前页面的另一语言版本）。
+**中英双语**：默认英文在根路径 `/`，中文在 `/zh/`，右上角可一键切换语言（会跳到当前页面的另一语言版本）。
 
 ## 目录结构
 
@@ -19,8 +19,8 @@
 │   │   ├── ui.ts                  # 界面文案翻译字典 + 语言辅助函数
 │   │   └── blog.ts               # 按语言筛选文章、解析 slug
 │   ├── layouts/BaseLayout.astro
-│   ├── pages/                     # 中文：index / about / blog/*
-│   │   └── en/                    # 英文：en/index / en/about / en/blog/*
+│   ├── pages/                     # 英文（默认）：index / about / blog/*
+│   │   └── zh/                    # 中文：zh/index / zh/about / zh/blog/*
 │   ├── styles/global.css          # 设计令牌（CSS 变量）集中在这里
 │   └── content.config.ts          # 内容集合 schema
 ├── astro.config.mjs
@@ -30,7 +30,7 @@
 
 ## 国际化（i18n）
 
-- 语言配置在 `astro.config.mjs` 的 `i18n`（默认 `zh`，`prefixDefaultLocale: false`，故中文无 `/zh` 前缀）。
+- 语言配置在 `astro.config.mjs` 的 `i18n`（默认 `en`，`prefixDefaultLocale: false`，故英文无前缀，中文在 `/zh`）。
 - 界面文案（导航、按钮、页脚等）集中在 `src/i18n/ui.ts`，新增文案在 `zh` 与 `en` 两个对象里同步补一条即可。
 - 文章按语言放在 `src/content/blog/zh/` 与 `src/content/blog/en/`，同名文件为对应译文；页面通过 `getPostsByLang(lang)` 只取当前语言文章。
 
