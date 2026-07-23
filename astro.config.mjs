@@ -8,7 +8,7 @@ export default defineConfig({
   // - 用户页仓库 username.github.io：site 设为 https://username.github.io，base 保持 '/'
   // - 项目页仓库 my-website：site 设为 https://username.github.io，base 设为 '/my-website'
   //   部署时可经 .github/workflows/deploy.yml 中的 ASTRO_BASE 注入，无需改这里
-  site: 'https://jackyagent.github.io',
+  site: 'https://graphjiaqi.xyz',
   base: process.env.ASTRO_BASE || '/',
 
   integrations: [
