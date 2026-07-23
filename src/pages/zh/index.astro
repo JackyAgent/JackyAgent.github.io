@@ -3,9 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogCard from '../../components/BlogCard.astro';
 import { useTranslations, localizePath } from '../../i18n/ui';
 import { getPostsByLang } from '../../i18n/blog';
+import { resume } from '../../data/resume';
 
 const lang = 'zh';
 const t = useTranslations(lang);
+const data = resume[lang];
 const posts = (await getPostsByLang(lang)).slice(0, 5);
 ---
 
@@ -15,8 +17,35 @@ const posts = (await getPostsByLang(lang)).slice(0, 5);
     <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
     <p class="hero-desc">{t('home.hero.desc')}</p>
     <div class="hero-links">
-      <a href={localizePath('/blog', lang)} class="btn">{t('home.hero.readBlog')}</a>
-      <a href={localizePath('/about', lang)} class="btn btn-secondary">{t('home.hero.learnMore')}</a>
+      <a href={localizePath('/about', lang)} class="btn">{t('home.hero.learnMore')}</a>
+      <a href={localizePath('/blog', lang)} class="btn btn-secondary">{t('home.hero.readBlog')}</a>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <h2 class="section-title">{t('home.stats.title')}</h2>
+    <div class="stats">
+      {data.stats.map((s) => (
+        <div class="stat">
+          <div class="stat-value">{s.value}</div>
+          <div class="stat-label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="focus-section">
+    <div class="section-header">
+      <h2>{t('home.focus.title')}</h2>
+    </div>
+    <div class="focus-grid">
+      {data.focusAreas.map((f, i) => (
+        <div class="focus-card">
+          <span class="focus-index">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{f.title}</h3>
+          <p>{f.desc}</p>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -35,27 +64,28 @@ const posts = (await getPostsByLang(lang)).slice(0, 5);
 
 <style>
   .hero {
-    padding: 2rem 0 3rem;
+    padding: 2rem 0 2.5rem;
   }
 
   .hero h1 {
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
+    font-size: 2.4rem;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.03em;
   }
 
   .hero-subtitle {
     font-family: var(--font-mono);
     font-size: 1rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 1.5rem;
+    color: var(--color-accent);
+    margin-bottom: 1.3rem;
   }
 
   .hero-desc {
     font-size: 1.05rem;
     color: var(--color-text-secondary);
     line-height: 1.8;
-    max-width: 560px;
-    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-bottom: 1.8rem;
   }
 
   .hero-links {
@@ -94,18 +124,116 @@ const posts = (await getPostsByLang(lang)).slice(0, 5);
     color: var(--color-text);
   }
 
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-  }
-
+  /* ========== 通用区块标题 ========== */
+  .section-title,
   .section-header h2 {
     font-size: 1.3rem;
   }
 
+  .stats-section {
+    margin-bottom: 3rem;
+  }
+
+  .stats-section .section-title {
+    margin-bottom: 1.2rem;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .stat {
+    padding: 1.2rem 1rem;
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-accent);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+
+  /* ========== 专业领域 ========== */
+  .focus-section {
+    margin-bottom: 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+
+  .focus-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .focus-card {
+    padding: 1.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .focus-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+  }
+
+  .focus-index {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-bottom: 0.6rem;
+  }
+
+  .focus-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .focus-card p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .recent-posts {
+    margin-top: 1rem;
+  }
+
   .see-all {
     font-size: 0.85rem;
+  }
+
+  @media (max-width: 600px) {
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .focus-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero h1 {
+      font-size: 2rem;
+    }
   }
 </style>

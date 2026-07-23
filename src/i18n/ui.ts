@@ -17,14 +17,16 @@ export const ui = {
     'lang.switch': 'EN',
     'lang.label': '中文',
 
-    'home.hero.title': '你好，我是杨嘉奇 👋',
-    'home.hero.subtitle': '全栈工程师 / 技术写作者',
+    'home.hero.title': '杨嘉奇',
+    'home.hero.subtitle': '大数据专家 · 业务风控',
     'home.hero.desc':
-      '我构建 Web 与云原生应用，并把踩过的坑写成文章。这里既是我的在线简历，也是我的技术博客——记录工程实践与思考沉淀。',
+      '10 年以上大数据与分布式系统经验，5 年以上业务风控实战。专注实时图技术与风控资损治理，曾将营销补贴资损率从 10% 降至 1% 以内。',
     'home.hero.readBlog': '阅读专栏 →',
     'home.hero.learnMore': '了解更多',
     'home.recent.title': '最新文章',
     'home.recent.seeAll': '查看全部 →',
+    'home.stats.title': '数据概览',
+    'home.focus.title': '专业领域',
 
     'blog.title': '专栏',
     'blog.description': '技术文章与思考',
@@ -34,10 +36,13 @@ export const ui = {
     'about.description': '关于杨嘉奇',
     'about.heading': '关于我',
     'about.bio.1':
-      '你好，我是杨嘉奇，一名专注后端与平台工程的工程师，习惯用可维护的代码解决真实问题。日常主要使用 Go 与 TypeScript 构建后端服务与前端应用，业余时间喜欢把复杂的技术主题拆开讲清楚，并写成博客。',
+      '10 年以上深耕大数据领域，5 年以上风控领域经验；在大数据、分布式系统、风控等方面有多年研究与开发积累，擅长把复杂的技术问题拆解为可落地的工程方案。',
     'about.bio.2':
-      '这个网站既是我的在线简历，也是我的技术博客。如果你对我的文章感兴趣，或者想交流技术话题，欢迎在文章下方留言，或通过以下方式联系我。',
+      '我长期参与开源社区建设（Apache HugeGraph Committer），持续打磨内部技术栈。这个网站既是我的在线简历，也是我沉淀技术思考的地方——欢迎通过下方方式与我联系。',
     'about.skills.title': '技能栈',
+    'about.experience.title': '工作经历',
+    'about.education.title': '教育经历',
+    'about.awards.title': '荣誉奖项',
     'about.skills.backend': '后端',
     'about.skills.frontend': '前端',
     'about.skills.devops': '工程化',
@@ -70,14 +75,16 @@ export const ui = {
     'lang.switch': '中',
     'lang.label': 'English',
 
-    'home.hero.title': "Hi, I'm Jiaqi Yang 👋",
-    'home.hero.subtitle': 'Full-stack Engineer / Technical Writer',
+    'home.hero.title': 'Jiaqi Yang',
+    'home.hero.subtitle': 'Big Data Expert · Risk Control',
     'home.hero.desc':
-      'I build web and cloud-native applications, and turn the pitfalls I hit into articles. This is both my online resume and my tech blog — a place to record engineering practice and distilled thinking.',
+      '10+ years in big data & distributed systems, 5+ years in risk control. Focused on real-time graph tech and loss-rate governance — cut subsidy loss rate from 10% to under 1%.',
     'home.hero.readBlog': 'Read the blog →',
     'home.hero.learnMore': 'Learn more',
     'home.recent.title': 'Latest posts',
     'home.recent.seeAll': 'See all →',
+    'home.stats.title': 'At a glance',
+    'home.focus.title': 'Focus Areas',
 
     'blog.title': 'Blog',
     'blog.description': 'Articles and thoughts on engineering',
@@ -87,10 +94,13 @@ export const ui = {
     'about.description': 'About Jiaqi Yang',
     'about.heading': 'About me',
     'about.bio.1':
-      "Hi, I'm Jiaqi Yang, an engineer focused on backend and platform engineering, used to solving real problems with maintainable code. Day to day I mainly use Go and TypeScript to build backend services and frontend apps. In my spare time I enjoy breaking down complex technical topics and writing them up as blog posts.",
+      '10+ years in big data with 5+ years in risk control. I have spent years researching and building in big data, distributed systems and risk control, and I enjoy turning hard technical problems into shippable engineering.',
     'about.bio.2':
-      "This site is both my online resume and my tech blog. If you're interested in my articles or want to talk about tech, feel free to leave a comment under any post or reach me through the channels below.",
+      "I'm an Apache HugeGraph Committer and keep refining our internal tech stack through open source. This site is both my online resume and a place to distill my thinking — feel free to reach me via the channels below.",
     'about.skills.title': 'Tech stack',
+    'about.experience.title': 'Experience',
+    'about.education.title': 'Education',
+    'about.awards.title': 'Honors & Awards',
     'about.skills.backend': 'Backend',
     'about.skills.frontend': 'Frontend',
     'about.skills.devops': 'DevOps',
