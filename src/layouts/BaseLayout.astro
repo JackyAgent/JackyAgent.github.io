@@ -2,20 +2,44 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { useTranslations, type Lang, defaultLang } from '../i18n/ui';
+import { resume } from '../data/resume';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
   lang?: Lang;
+  type?: 'website' | 'article';
 }
 
-const { title, lang = defaultLang, description } = Astro.props;
+const { title, lang = defaultLang, description, type = 'website' } = Astro.props;
 const t = useTranslations(lang);
 const siteName = t('site.name');
 const metaDescription = description ?? t('site.description');
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
+
+// 绝对地址：规范链接（canonical）与社交分享卡片统一使用
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogLocale = lang === 'en' ? 'en_US' : 'zh_CN';
+const ogLocaleAlt = lang === 'en' ? 'zh_CN' : 'en_US';
+
+// JSON-LD 个人结构化数据，帮助搜索引擎理解这是"人"的履历页
+const profile = resume[lang];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteName,
+  jobTitle: profile.role,
+  url: canonicalURL.href,
+  description: metaDescription,
+  alumniOf: profile.education.map((e) => e.school),
+  knowsAbout: profile.skills.flatMap((g) => g.items),
+  sameAs: [
+    'https://github.com/JackyAgent',
+    'https://www.zhihu.com/people/JackyYangPassion',
+  ],
+};
 ---
 
 <!doctype html>
@@ -24,9 +48,29 @@ const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={metaDescription} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
+
+    <!-- 基础 SEO -->
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph（微信/Telegram/LinkedIn 等分享卡片） -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={metaDescription} />
+
+    <!-- 结构化数据：便于搜索结果富媒体展示（如「知识面板」） -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <Header lang={lang} />

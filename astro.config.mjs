@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,9 +11,18 @@ export default defineConfig({
   site: 'https://jackyagent.github.io',
   base: process.env.ASTRO_BASE || '/',
 
-  integrations: [react()],
+  integrations: [
+    react(),
+    sitemap({
+      // 让 sitemap 携带 hreflang 多语言标记，帮助搜索引擎区分中英文版本
+      i18n: {
+        defaultLocale: 'en',
+        locales: { en: 'en', zh: 'zh-CN' },
+      },
+    }),
+  ],
 
-  // 国际化：默认中文（根路径无前缀），英文在 /en 下
+  // 国际化：默认英文（根路径无前缀），中文在 /zh 下
   i18n: {
     locales: ['en', 'zh'],
     defaultLocale: 'en',
