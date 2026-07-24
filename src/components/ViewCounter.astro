@@ -6,68 +6,20 @@ interface Props {
 }
 const { lang } = Astro.props;
 
-// Umami 只读「分享 token」——公开、不含主账号 API key，可在后台 Share 链接里获取。
-// 占位状态下组件不渲染、脚本不执行，避免线上报错；拿到真实 token 填这里即可启用。
-const shareToken = 'YOUR_UMAMI_SHARE_TOKEN';
-const enabled = !shareToken.includes('YOUR_');
+// 文章阅读量显示改用「不蒜子 busuanzi」：纯前端、零配置、按 URL 自动统计 PV。
+// 原因：Umami Cloud 免费版不含 Share 功能（无 Share 按钮、无只读 token 可走 share API），
+// 故原本基于 /api/share/{token}/metrics 的方案不可行。
+// 不蒜子与已上线的 Umami 埋点互不冲突：Umami 负责来源/页面/停留分析，不蒜子只显示阅读量数字。
+// 不蒜子通过特定 id 的 span 自动填充当前页 PV（基于 URL 去重），脚本需 is:inline 原样保留。
 const label = lang === 'zh' ? '阅读量' : 'Views';
 ---
 
-{enabled && (
-  <div class="view-counter" data-token={shareToken}>
-    <span class="vc-text">{label}</span>
-    <span class="vc-count" data-count>—</span>
-  </div>
-)}
+<div class="view-counter">
+  <span class="vc-text">{label}</span>
+  <span id="busuanzi_value_page_pv" class="vc-count">0</span>
+</div>
 
-<script>
-  const counter = document.querySelector('.view-counter');
-  if (counter) {
-    const token = counter.getAttribute('data-token');
-    const path = location.pathname;
-    const cacheKey = 'umami:views:' + path;
-
-    const render = (n) => {
-      const el = counter.querySelector('[data-count]');
-      if (el) el.textContent = String(n);
-    };
-
-    // 本地缓存 1 小时，减少 share API 调用（Umami Cloud 有速率限制）
-    let cached = null;
-    try {
-      const raw = localStorage.getItem(cacheKey);
-      if (raw) {
-        const obj = JSON.parse(raw);
-        if (Date.now() - obj.ts < 60 * 60 * 1000) cached = obj.count;
-      }
-    } catch (e) {}
-
-    if (cached !== null) {
-      render(cached);
-    } else if (token) {
-      const start = '2020-01-01T00:00:00.000Z';
-      const end = new Date().toISOString();
-      const url =
-        'https://cloud.umami.is/api/share/' +
-        token +
-        '/metrics?type=url&startDate=' +
-        encodeURIComponent(start) +
-        '&endDate=' +
-        encodeURIComponent(end);
-      fetch(url)
-        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-        .then((data) => {
-          const item = Array.isArray(data) ? data.find((d) => d.x === path) : null;
-          const count = item ? item.y : 0;
-          render(count);
-          try {
-            localStorage.setItem(cacheKey, JSON.stringify({ count, ts: Date.now() }));
-          } catch (e) {}
-        })
-        .catch(() => render(0));
-    }
-  }
-</script>
+<script is:inline async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <style>
   .view-counter {
