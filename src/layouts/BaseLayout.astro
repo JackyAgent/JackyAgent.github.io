@@ -40,6 +40,13 @@ const jsonLd = {
     'https://www.zhihu.com/people/JackyYangPassion',
   ],
 };
+
+// Umami 访问统计（仿 Giscus 模式：websiteId 仍为占位时不加载，避免报错）
+const umami = {
+  host: 'https://cloud.umami.is',        // Umami 实例地址；自托管请改为你的域名
+  websiteId: '70fc0f98-2eca-4e59-b859-892aa952b467', // Umami Cloud 后台「Websites」站点 ID
+};
+const umamiEnabled = !umami.websiteId.includes('YOUR_');
 ---
 
 <!doctype html>
@@ -71,6 +78,17 @@ const jsonLd = {
 
     <!-- 结构化数据：便于搜索结果富媒体展示（如「知识面板」） -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Umami 访问统计（未配置 websiteId 时自动跳过） -->
+    {umamiEnabled && (
+      <script
+        is:inline
+        defer
+        src={`${umami.host}/script.js`}
+        data-website-id={umami.websiteId}
+        data-domains="graphjiaqi.xyz"
+      ></script>
+    )}
   </head>
   <body>
     <Header lang={lang} />
