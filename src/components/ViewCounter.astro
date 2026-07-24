@@ -1,0 +1,90 @@
+---
+import { type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+// Umami 只读「分享 token」——公开、不含主账号 API key，可在后台 Share 链接里获取。
+// 占位状态下组件不渲染、脚本不执行，避免线上报错；拿到真实 token 填这里即可启用。
+const shareToken = 'YOUR_UMAMI_SHARE_TOKEN';
+const enabled = !shareToken.includes('YOUR_');
+const label = lang === 'zh' ? '阅读量' : 'Views';
+---
+
+{enabled && (
+  <div class="view-counter" data-token={shareToken}>
+    <span class="vc-text">{label}</span>
+    <span class="vc-count" data-count>—</span>
+  </div>
+)}
+
+<script>
+  const counter = document.querySelector('.view-counter');
+  if (counter) {
+    const token = counter.getAttribute('data-token');
+    const path = location.pathname;
+    const cacheKey = 'umami:views:' + path;
+
+    const render = (n) => {
+      const el = counter.querySelector('[data-count]');
+      if (el) el.textContent = String(n);
+    };
+
+    // 本地缓存 1 小时，减少 share API 调用（Umami Cloud 有速率限制）
+    let cached = null;
+    try {
+      const raw = localStorage.getItem(cacheKey);
+      if (raw) {
+        const obj = JSON.parse(raw);
+        if (Date.now() - obj.ts < 60 * 60 * 1000) cached = obj.count;
+      }
+    } catch (e) {}
+
+    if (cached !== null) {
+      render(cached);
+    } else if (token) {
+      const start = '2020-01-01T00:00:00.000Z';
+      const end = new Date().toISOString();
+      const url =
+        'https://cloud.umami.is/api/share/' +
+        token +
+        '/metrics?type=url&startDate=' +
+        encodeURIComponent(start) +
+        '&endDate=' +
+        encodeURIComponent(end);
+      fetch(url)
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then((data) => {
+          const item = Array.isArray(data) ? data.find((d) => d.x === path) : null;
+          const count = item ? item.y : 0;
+          render(count);
+          try {
+            localStorage.setItem(cacheKey, JSON.stringify({ count, ts: Date.now() }));
+          } catch (e) {}
+        })
+        .catch(() => render(0));
+    }
+  }
+</script>
+
+<style>
+  .view-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 2.5rem;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+  .vc-count {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+</style>
